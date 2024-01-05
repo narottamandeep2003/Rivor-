@@ -11,3 +11,9 @@ body {
 body::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
 }
+.b{
+  background-image: linear-gradient(to right, black 10%, rgba(0, 0, 0, 0) 0%);
+  background-position: bottom;
+  background-size: 15px 2px;
+  background-repeat: repeat-x;
+}

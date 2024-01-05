@@ -50,7 +50,7 @@ export default function NavBar() {
               About
             </NavLink>
             <NavLink
-              to={"/8"}
+              to={"/shop"}
               className={({ isActive, isPending, isTransitioning }) =>
                 isActive ? " font-semibold" : ""
               }
@@ -119,7 +119,7 @@ export default function NavBar() {
           About
         </NavLink>
         <NavLink
-          to={"/8"}
+          to={"/shop"}
           className={({ isActive, isPending, isTransitioning }) =>
             isActive ? " font-semibold text-white" : "text-white"
           }
