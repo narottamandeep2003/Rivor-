@@ -16,7 +16,7 @@ export default function Footer() {
           <p>TikTok</p> <p>Pinterest</p>
         </div>
       </div>
-      <div className=" w-screen b py-2"></div>
+      <div className=" w-screen  py-2"></div>
 
     </>
   );

@@ -8,6 +8,7 @@ function SearchFilter() {
   });
   return (
     <>
+      <div className="pt-[70px]"></div>
       <div className="pt-10 w-screen flex justify-center flex-col items-start max-xl:pt-3 ">
         <div className="w-screen justify-center flex  max-xl:px-2">
           <button
@@ -16,7 +17,7 @@ function SearchFilter() {
               setOpen({ ...open, categoryIsOpen: !open.categoryIsOpen });
             }}
           >
-            <i class="bi bi-card-list"></i>
+            <i className="bi bi-card-list"></i>
           </button>
           <input
             type="text"
@@ -29,7 +30,7 @@ function SearchFilter() {
               setOpen({ ...open, filtreIsOpen: !open.filtreIsOpen });
             }}
           >
-            <i class="bi bi-sliders pr-2 max-xl:pr-[5px]"></i> Filter
+            <i className="bi bi-sliders pr-2 max-xl:pr-[5px]"></i> Filter
           </button>
         </div>
       </div>

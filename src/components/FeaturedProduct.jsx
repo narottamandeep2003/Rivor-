@@ -1,12 +1,18 @@
 import React from "react";
+import { useNavigate} from "react-router-dom";
 
 function ProductItem(data) {
+  let navigate=useNavigate()
+  const handleClick=()=>{
+    navigate("/product")
+  }
   return (
     <div className=" w-[100%] self-center mx-auto max-lg:w-[100%]">
       <img
         src={`${data.imgUrl}`}
         alt="...."
-        className=" w-full h-[450px] object-cover object-top rounded-md max-lg:h-[50%]"
+        className=" w-full h-[450px] object-cover object-top  max-lg:h-[50%]"
+        onClick={handleClick}
       />
       <h1 className=" font-semibold text-[1.2rem] pt-2 max-sm:text-[1rem]">
         stylish clothes dress

@@ -19,7 +19,7 @@ export default function Cursor() {
   return (
     <div
       ref={cursor}
-      className=" z-50 cursor fixed top-0 left-0 w-[15px] h-[15px] bg-[#222] rounded-full pointer-events-none select-none"
+      className=" z-50 cursor fixed top-0 left-0 w-[15px] h-[15px] bg-white rounded-full pointer-events-none select-none"
     ></div>
   );
 }
