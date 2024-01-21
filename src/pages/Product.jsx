@@ -20,7 +20,7 @@ export default function Product() {
   }
   useEffect(()=>{
     getProductInfo();
-  },[])
+  },[getProductInfo])
   return (
     <div>
       <ProductInfo info={info} ></ProductInfo>
