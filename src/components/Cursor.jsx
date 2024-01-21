@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 export default function Cursor() {
   const cursor = useRef(null);
   useEffect(() => {
+    
     gsap.set(cursor.current, { xPercent: -50, yPercent: -50 });
     window.addEventListener("mousemove", (e) => {
       gsap.to(cursor.current, {

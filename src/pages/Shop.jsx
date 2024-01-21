@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Products from "../components/Product";
-
+import { useDispatch } from "react-redux"
+import { changeRole } from '../redux/features/userRole'
+import axios from "axios";
 function SearchFilter() {
   const [open, setOpen] = useState({
     categoryIsOpen: false,
     filtreIsOpen: false,
   });
+  let arr = ["All", "T-shirts", "Blouses", "Shirts", "Sweaters", "Sweaters", "Pants", "trousers", "Dresses", "Jackets", "Blazers", "Coats", "Shoes", "Sandals", "Jewelry", "Hats", "Bags"]
   return (
     <>
       <div className="pt-[70px]"></div>
@@ -37,8 +40,27 @@ function SearchFilter() {
       {open.categoryIsOpen || open.filtreIsOpen ? (
         <div className="w-screen relative flex justify-center pt-2">
           <div className="w-[50%] relative max-xl:w-[calc(100%-10px)]">
-            <div className=" h-[200px] bg-[#222] position w-full  rounded-xl absolute top-0 ">
-              {" "}
+            <div className="p-2 bg-[#222] position w-full  rounded-xl absolute top-0 ">
+              {(open.categoryIsOpen) ? (
+
+                <div className="w-full grid grid-cols-3 gap-y-1">
+                  {
+                    arr.map((ele) => {
+                      return <div className="w-full flex justify-start items-center px-10 max-md:text-[.8rem]">
+                        <input type="checkbox" name="categories" id={`${ele}`} className=" accent-white p-2 h-auto" />
+                        <label htmlFor={`${ele}`} className="text-white p-2 self-start">{ele}</label>
+                      </div>
+                    })
+                  }
+                </div>
+              ) : (<div className="w-full flex justify-evenly">
+                <button className="text-white">Order by rating</button>
+                <button className="text-white">Price low to high</button>
+                <button className="text-white">Price high to low</button>
+              </div>)}
+
+
+
             </div>
           </div>
         </div>
@@ -49,6 +71,25 @@ function SearchFilter() {
   );
 }
 export default function Shop() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    // /verify
+    axios.defaults.withCredentials = true
+    axios.post(`${process.env.REACT_APP_API}api/verify`, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      })
+      .then((Response) => {
+        console.log(Response)
+        if (Response.data.data.success) {
+          dispatch(changeRole({ role: Response.data.data.data.role, active: true }))
+        }
+      })
+      .catch((err) => {
+        dispatch(changeRole({ role: "User", active: false }))
+         
+      });
+  }, [dispatch])
   return (
     <div>
       <SearchFilter></SearchFilter>

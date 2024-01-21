@@ -1,23 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-function CartItem() {
+import { useDispatch, useSelector } from "react-redux"
+import { changeRole } from '../redux/features/userRole'
+import { DecCartItem, IncCartItem } from "../redux/features/Cart";
+function CartItem(data) {
+  let dispatch = useDispatch()
   return (
     <tr className="w-screen border-t border-b p-3 max-xl:p-1">
       <td className="  text-center flex w-full justify-center ">
         <img
-          src="assert/P4.jpg"
+          src={data.imgUrl}
           alt="..."
           className="w-[180px] h-[230px] object-cover object-center max-xl:h-[200px] max-xl:w-[150px]"
         />
       </td>
       <td className="   text-center max-xl:text-[.8rem] max-xl:w-auto">
-        <button className=" w-[50px] h-[35px] border  border-black  max-xl:text-[.8rem] max-xl:w-auto max-xl:h-auto max-xl:p-1">-</button>
+        <button className=" w-[50px] h-[35px] border  border-black  max-xl:text-[.8rem] max-xl:w-auto max-xl:h-auto max-xl:p-1"
+         onClick={() => {
+          dispatch(DecCartItem({id:data.id}))
+        }}
+        >-</button>
         <button className=" w-[50px] h-[35px]  border  border-black border-l-0 border-r-0  max-xl:w-auto max-xl:h-auto max-xl:p-1">
-          5
+          {data.quantity}
         </button>
-        <button className=" w-[50px] h-[35px] border  border-black max-xl:text-[.8rem] max-xl:w-auto max-xl:h-auto max-xl:p-1">+</button>
+        <button className=" w-[50px] h-[35px] border  border-black max-xl:text-[.8rem] max-xl:w-auto max-xl:h-auto max-xl:p-1"
+          onClick={() => {
+            dispatch(IncCartItem({id:data.id}))
+          }}
+        >+ </button>
       </td>
-      <td className="   text-center  text-[1.2rem] max-xl:text-[.8rem]">$500</td>
+      <td className="   text-center  text-[1.2rem] max-xl:text-[.8rem]">${data.price * data.quantity}</td>
       <td className="  text-center">
         <i className="bi bi-x-lg pr-10 max-xl:pl-3"></i>
       </td>
@@ -26,6 +39,27 @@ function CartItem() {
 }
 export default function Cart() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  let Cart = useSelector((state) => state.Cart.value)
+  console.log(Cart)
+  useEffect(() => {
+    // /verify
+    axios.defaults.withCredentials = true
+    axios.post(`${process.env.REACT_APP_API}api/verify`, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((Response) => {
+        console.log(Response)
+        if (Response.data.data.success) {
+          dispatch(changeRole({ role: Response.data.data.data.role, active: true }))
+        }
+      })
+      .catch((err) => {
+        dispatch(changeRole({ role: "User", active: false }))
+         
+      });
+  }, [dispatch])
   const handleClick = () => {
     navigate("/checkout")
   }
@@ -45,10 +79,9 @@ export default function Cart() {
                 </tr>
               </thead>
               <tbody className=" space-y-4">
-                <CartItem></CartItem>
-                <CartItem></CartItem>
-                <CartItem></CartItem>
-                <CartItem></CartItem>
+                {Cart.map(val => {
+                  return <CartItem key={val.id} id={val.id} imgUrl={val.imgUrl} price={val.price} quantity={val.quantity} maxQuantity={val.maxQuantity}></CartItem>
+                })}
               </tbody>
             </table>
           </div>

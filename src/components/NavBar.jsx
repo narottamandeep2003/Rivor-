@@ -1,12 +1,79 @@
 import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux"
+import { changeRole } from '../redux/features/userRole'
 
+function Profile(params) {
+  let navigate = useNavigate()
+
+  const dispatch = useDispatch()
+  const location = useLocation();
+  let handleClick = () => {
+    axios.defaults.withCredentials = true
+    axios.post(`${process.env.REACT_APP_API}api/logout`, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((Response) => {
+        console.log(Response)
+        if (Response.data.data.success) {
+          dispatch(changeRole({ role: "User", active: false }))
+          navigate("/", { replace: true })
+        }
+      })
+      .catch((err) => {
+        dispatch(changeRole({ role: "User", active: false }))
+         
+      });
+  }
+  return <>
+    <img
+      src="/assert/profile.jpg"
+      alt="..."
+      className=" w-[40px] h-[40px] rounded-full"
+    />
+    <NavLink
+      className={
+        `${location.pathname === "/" ? " text-white px-4" : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex px-10 h-[40px] justify-center items-center rounded-md"}`
+      }
+      onClick={handleClick}
+    >
+      LogOut
+    </NavLink>
+  </>
+}
+function Login(params) {
+  const location = useLocation();
+
+  return <>
+    <NavLink
+      to={"/login"}
+      className={
+        `${location.pathname === "/" ? " text-white px-4" : "bg-[#222] text-white hover:bg-[#333] flex px-8 h-[40px] justify-center items-center rounded-md"}`
+      }
+    >
+      Login
+    </NavLink>
+    <NavLink
+      to={"/signup"}
+      className={
+        `${location.pathname === "/" ? " text-white px-4" : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex px-10 h-[40px] justify-center items-center rounded-md"}`
+      }
+    >
+      Sign up
+    </NavLink>
+  </>
+}
 export default function NavBar() {
+  let CartSize = useSelector((state) => state.Cart.value)
+  const data = useSelector(state => state.Role.value)
   const location = useLocation();
   const [click, setclick] = useState(false);
   return (
     <>
-      <nav className={`w-screen h-[70px] justify-center items-center flex absolute top-0 left-0 z-40 ${location.pathname === "/" ? " bg-[#0f0f0f]" : "bg-white"} ${(location.pathname === "/signup" || location.pathname === "/login") ? "hidden" : ""}`}>
+      <nav className={`w-screen h-[70px] justify-center items-center flex absolute top-0 left-0 z-40 ${location.pathname === "/" ? " bg-[#0f0f0f]" : "bg-white"} ${(location.pathname === "/signup" || location.pathname === "/login" || location.pathname === "/otp") ? "hidden" : ""}`}>
         <div className="w-[calc(100vw-150px)] h-[70px] flex justify-between items-center max-sm:w-[calc(100vw-100px)]">
           <h1 className={`font-bold text-[1.3rem] font-mono max-sm:text-[1rem] ${location.pathname === "/" ? " text-white" : "text-[#0f0f0f]"}`}>
             Rivoré
@@ -50,44 +117,32 @@ export default function NavBar() {
             >
               Shop
             </NavLink>
+            {
+              (data.active && data.role === "Admin") ? (<NavLink
+                to={"/admin"}
+                className={({ isActive, isPending, isTransitioning }) =>
+                  isActive ? " font-semibold" : ""
+                }
+              >
+                Admin
+              </NavLink>) : ""
+            }
+
             <NavLink
               to={"/cart"}
               className={({ isActive, isPending, isTransitioning }) =>
                 isActive ? " font-semibold" : ""
               }
             >
-              Cart(0)
+              Cart({CartSize.length})
             </NavLink>
+
           </div>
+
           <div className="flex h-full space-x-5 items-center  max-sm:hidden max-md:hidden  max-lg:hidden">
-            {/* <img
-              src="/assert/profile.jpg"
-              alt="..."
-              className=" w-[40px] h-[40px] rounded-full"
-            />
-            <NavLink
-              className={
-                "bg-[#222] text-white hover:bg-[#333] flex px-8 h-[40px] justify-center items-center rounded-md"
-              }
-            >
-              LogOut
-            </NavLink> */}
-            <NavLink
-              to={"/login"}
-              className={
-                `${location.pathname === "/" ? " text-white px-4" : "bg-[#222] text-white hover:bg-[#333] flex px-8 h-[40px] justify-center items-center rounded-md"}`
-              }
-            >
-              Login
-            </NavLink>
-            <NavLink
-              to={"/signup"}
-              className={
-                `${location.pathname === "/" ? " text-white px-4" : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex px-10 h-[40px] justify-center items-center rounded-md"}`
-              }
-            >
-              Sign up
-            </NavLink>
+            {data.active ? (<Profile></Profile>) : <Login></Login>}
+
+
           </div>
         </div>
       </nav>
