@@ -9,16 +9,16 @@ export default function Product() {
   // let getProductInfo = 
   useCallback(
     async () => {
-    axios.get(`${process.env.REACT_APP_API}api/getProductInfo/${ProductId}`).then((Response) => {
-      if (Response.data.data.success) {
-        // setFeaturedItem(Response.data.data.data)
-        setinfo(Response.data.data.data)
-      }
-    }).catch((err) => {
+      axios.get(`${process.env.REACT_APP_API}api/getProductInfo/${ProductId}`).then((Response) => {
+        if (Response.data.data.success) {
+          // setFeaturedItem(Response.data.data.data)
+          setinfo(Response.data.data.data)
+        }
+      }).catch((err) => {
 
-      console.log(err)
-    })
-  }, [ProductId])
+        console.log(err)
+      })
+    }, [ProductId])
   // useEffect(()=>{
   //     getProductInfo();
   // },[getProductInfo])
