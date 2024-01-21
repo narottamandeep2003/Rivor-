@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import ProductInfo from '../components/ProductInfo'
-import Review from '../components/Review'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -19,7 +18,7 @@ export default function Product() {
   })
   }
   useEffect(()=>{
-    getProductInfo();
+      getProductInfo();
   },[getProductInfo])
   return (
     <div>
