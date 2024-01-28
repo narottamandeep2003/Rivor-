@@ -3,6 +3,7 @@ export const CartSlice = createSlice({
   name: "Cart",
   initialState: {
     value: [],
+    total:0
   },
   reducers: {
     addCart: (state, action) => {
@@ -21,6 +22,11 @@ export const CartSlice = createSlice({
           imgUrl: action.payload.imgUrl,
         });
       }
+      let TempTotal=0
+      state.value.forEach((ele)=>{
+        TempTotal+=(ele.quantity*ele.price)
+      })
+      state.total=TempTotal
     },
     IncCartItem: (state, action) => {
       state.value = state.value.map((val) => {
@@ -32,6 +38,11 @@ export const CartSlice = createSlice({
         }
       });
       console.log("IncCartItem",action.payload.id)
+      let TempTotal=0
+      state.value.forEach((ele)=>{
+        TempTotal+=(ele.quantity*ele.price)
+      })
+      state.total=TempTotal
     },
     DecCartItem: (state, action) => {
       state.value = state.value.map((val) => {
@@ -43,6 +54,11 @@ export const CartSlice = createSlice({
         }
       });
       console.log("IncCartItem",action.payload.id)
+      let TempTotal=0
+      state.value.forEach((ele)=>{
+        TempTotal+=(ele.quantity*ele.price)
+      })
+      state.total=TempTotal
     },
   },
 });

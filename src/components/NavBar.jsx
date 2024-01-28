@@ -25,7 +25,7 @@ function Profile(params) {
       })
       .catch((err) => {
         dispatch(changeRole({ role: "User", active: false }))
-         
+
       });
   }
   return <>
@@ -71,6 +71,27 @@ export default function NavBar() {
   const data = useSelector(state => state.Role.value)
   const location = useLocation();
   const [click, setclick] = useState(false);
+  let navigate = useNavigate()
+
+  const dispatch = useDispatch()
+  let handleClick = () => {
+    axios.defaults.withCredentials = true
+    axios.post(`${process.env.REACT_APP_API}api/logout`, {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    })
+      .then((Response) => {
+        console.log(Response)
+        if (Response.data.data.success) {
+          dispatch(changeRole({ role: "User", active: false }))
+          navigate("/", { replace: true })
+        }
+      })
+      .catch((err) => {
+        dispatch(changeRole({ role: "User", active: false }))
+
+      });
+  }
   return (
     <>
       <nav className={`w-screen h-[70px] justify-center items-center flex absolute top-0 left-0 z-40 ${location.pathname === "/" ? " bg-[#0f0f0f]" : "bg-white"} ${(location.pathname === "/signup" || location.pathname === "/login" || location.pathname === "/otp") ? "hidden" : ""}`}>
@@ -156,22 +177,16 @@ export default function NavBar() {
           className={({ isActive, isPending, isTransitioning }) =>
             isActive ? " font-semibold text-white" : " text-white"
           }
+          onClick={() => { setclick(false) }}
         >
           Home
-        </NavLink>
-        <NavLink
-          to={"/about"}
-          className={({ isActive, isPending, isTransitioning }) =>
-            isActive ? " font-semibold text-white" : "text-white"
-          }
-        >
-          About
         </NavLink>
         <NavLink
           to={"/shop"}
           className={({ isActive, isPending, isTransitioning }) =>
             isActive ? " font-semibold text-white" : "text-white"
           }
+          onClick={() => { setclick(false) }}
         >
           Shop
         </NavLink>
@@ -180,9 +195,60 @@ export default function NavBar() {
           className={({ isActive, isPending, isTransitioning }) =>
             isActive ? " font-semibold text-white" : "text-white"
           }
+          onClick={() => { setclick(false) }}
         >
           Cart(0)
         </NavLink>
+        {
+          data.active ? (
+            <>
+              <NavLink
+                to={"/login"}
+
+                className={
+                  `${location.pathname === "/" ? " text-white " : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex  h-[40px] justify-center items-center rounded-md"}`
+                }
+                onClick={() => { setclick(false) }}
+              >
+                Profile
+              </NavLink>
+              <NavLink
+                to={"/logout"}
+                className={
+                  `${location.pathname === "/" ? " text-white " : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex  h-[40px] justify-center items-center rounded-md"}`
+                }
+                onClick={() => { setclick(false);  
+                  handleClick()}}
+              >
+                Logout
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to={"/login"}
+
+                className={
+                  `${location.pathname === "/" ? " text-white " : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex  h-[40px] justify-center items-center rounded-md"}`
+                }
+                onClick={() => { setclick(false) }}
+              >
+                login
+              </NavLink>
+              <NavLink
+                to={"/signup"}
+                className={
+                  `${location.pathname === "/" ? " text-white " : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex  h-[40px] justify-center items-center rounded-md"}`
+                }
+                onClick={() => { setclick(false) }}
+              >
+                signup
+              </NavLink>
+            </>
+          )
+        }
+
+
       </div>
     </>
   );

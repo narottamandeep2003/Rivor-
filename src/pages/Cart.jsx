@@ -41,6 +41,7 @@ export default function Cart() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   let Cart = useSelector((state) => state.Cart.value)
+  let Cartval = useSelector((state) => state.Cart.total)
   console.log(Cart)
   useEffect(() => {
     // /verify
@@ -93,16 +94,16 @@ export default function Cart() {
             </div>
             <div className="w-full flex justify-between py-1">
               <div className=" font-bold" >Total Item</div>
-              <div className="w-[50px]">7</div>
+              <div className="w-[50px]">{Cart.length}</div>
             </div>
 
             <div className="w-full flex justify-between py-1">
               <div className=" font-bold" >sub cost </div>
-              <div className="w-[50px]">$20</div>
+              <div className="w-[50px]">${Cartval}</div>
             </div>
             <div className="w-full flex justify-between py-1">
               <div className=" font-bold" >Discount </div>
-              <div className="w-[50px]">$2</div>
+              <div className="w-[50px]">$0</div>
             </div>
             <div className="w-full flex justify-between py-1">
               <div className=" font-bold" >Tax </div>
@@ -110,7 +111,7 @@ export default function Cart() {
             </div>
             <div className="w-full flex justify-between py-1 pb-4">
               <div className=" font-bold" >Total </div>
-              <div className="w-[50px]">$18</div>
+              <div className="w-[50px]">${Cartval}</div>
             </div>
             <button className="bg-[#222] px-3 py-2 rounded-full w-full text-white " onClick={handleClick}>CheckOut</button>
           </div>

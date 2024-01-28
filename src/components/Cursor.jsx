@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 export default function Cursor() {
   const cursor = useRef(null);
   useEffect(() => {
-    
+
     gsap.set(cursor.current, { xPercent: -50, yPercent: -50 });
     window.addEventListener("mousemove", (e) => {
       gsap.to(cursor.current, {
@@ -21,6 +21,8 @@ export default function Cursor() {
     <div
       ref={cursor}
       className=" z-50 cursor fixed top-0 left-0 w-[15px] h-[15px] bg-white rounded-full pointer-events-none select-none"
-    ></div>
+    >
+      <img src="/iconx.png" alt="..." className="iconx" />
+    </div>
   );
 }

@@ -1,3 +1,4 @@
+import gsap from "gsap";
 import React from "react";
 import { useNavigate} from "react-router-dom";
 
@@ -6,6 +7,24 @@ function ProductItem(data) {
   const handleClick=()=>{
     navigate("/product/"+data.id)
   }
+  const handleEnter=()=>{
+    gsap.to(".cursor", {
+      duration: 0.5,
+      scale: 5,
+      ease: "power1.out",
+      overwrite: "auto",
+      stagger: 0.02,
+    });
+  }
+  const handleLeave=()=>{
+    gsap.to(".cursor", {
+      duration: 0.5,
+      scale: 1,
+      ease: "power1.out",
+      overwrite: "auto",
+      stagger: 0.02,
+    });
+  }
   return (
     <div className=" w-[100%] self-center mx-auto max-lg:w-[100%]">
       <img
@@ -13,6 +32,8 @@ function ProductItem(data) {
         alt="...."
         className=" w-full h-[450px] object-cover object-top  max-lg:h-[50%]"
         onClick={handleClick}
+        onPointerEnter={handleEnter}
+        onPointerLeave={handleLeave}
       />
       <h1 className=" font-semibold text-[1.2rem] pt-2 max-sm:text-[1rem]">
       {data.title}

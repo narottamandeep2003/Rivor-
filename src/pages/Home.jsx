@@ -1,6 +1,6 @@
 import { Environment, Float, } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { Hero } from '../components/Hero'
 import Footer from '../components/Footer'
 import FeaturedProduct from '../components/FeaturedProduct'
@@ -59,6 +59,7 @@ useEffect(() => {
   return (
     <div className='bg-[#0f0f0f] w-screen h-screen'>
       <div className='w-full h-full'>
+        <Suspense fallback={<h1 className=' text-orange-500'>Loading</h1>}>
         <Canvas shadows className='w-full h-full' camera={{ position: [20, 0.9, 20], fov: 26 }}>
           <ambientLight intensity={0.1} />
           <Environment preset="city" />
@@ -67,6 +68,7 @@ useEffect(() => {
             <Hero position={[0, -3, 0]} rotation={[0, .7, 0]} scale={1.2} ></Hero>
           </Float>
         </Canvas>
+        </Suspense>
       </div>
       <div className=' text-center text-white absolute z-20 bottom-20 w-full flex flex-col'>
         <span className='text-[7rem] leading-none max-md:text-[3rem] max-sm:text-[2rem]'>Digital products </span>
