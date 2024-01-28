@@ -205,8 +205,8 @@ export default function NavBar() {
               <NavLink
                 to={"/login"}
 
-                className={
-                  `${location.pathname === "/" ? " text-white " : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex  h-[40px] justify-center items-center rounded-md"}`
+                className={({ isActive, isPending, isTransitioning }) =>
+                  isActive ? " font-semibold text-white" : "text-white"
                 }
                 onClick={() => { setclick(false) }}
               >
@@ -214,11 +214,13 @@ export default function NavBar() {
               </NavLink>
               <NavLink
                 to={"/logout"}
-                className={
-                  `${location.pathname === "/" ? " text-white " : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex  h-[40px] justify-center items-center rounded-md"}`
+                className={({ isActive, isPending, isTransitioning }) =>
+                  isActive ? " font-semibold text-white" : "text-white"
                 }
-                onClick={() => { setclick(false);  
-                  handleClick()}}
+                onClick={() => {
+                  setclick(false);
+                  handleClick()
+                }}
               >
                 Logout
               </NavLink>
@@ -228,8 +230,8 @@ export default function NavBar() {
               <NavLink
                 to={"/login"}
 
-                className={
-                  `${location.pathname === "/" ? " text-white " : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex  h-[40px] justify-center items-center rounded-md"}`
+                className={({ isActive, isPending, isTransitioning }) =>
+                  isActive ? " font-semibold text-white" : "text-white"
                 }
                 onClick={() => { setclick(false) }}
               >
@@ -237,8 +239,8 @@ export default function NavBar() {
               </NavLink>
               <NavLink
                 to={"/signup"}
-                className={
-                  `${location.pathname === "/" ? " text-white " : " outline outline-2 outline-[#333] text-[#333] hover:bg-[#333] hover:outline-none hover:text-white flex  h-[40px] justify-center items-center rounded-md"}`
+                className={({ isActive, isPending, isTransitioning }) =>
+                  isActive ? " font-semibold text-white" : "text-white"
                 }
                 onClick={() => { setclick(false) }}
               >
